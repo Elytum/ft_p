@@ -12,13 +12,14 @@
 
 #include <inputs.h>
 
-void		ft_lststr_add(t_str **lst, t_str *new)
+void		ft_lststr_add(t_str **lst, t_str *newp)
 {
-	if (!lst || !new)
+	if (!lst || !newp)
 		return ;
-	new->next = *lst;
-	(*lst)->past = new;
-	*lst = new;
+	newp->next = *lst;
+	if (*lst)
+		(*lst)->past = newp;
+	*lst = newp;
 }
 
 t_str		*ft_lststr_new(char *str)

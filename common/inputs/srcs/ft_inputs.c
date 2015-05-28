@@ -12,7 +12,7 @@
 
 #include <inputs.h>
 
-int			ft_quit(t_env *e, char *inputs)
+int					ft_quit(t_env *e, char *inputs)
 {
 	if (inputs[0] == 3)
 		return (0);
@@ -35,7 +35,7 @@ int			ft_quit(t_env *e, char *inputs)
 	return (0);
 }
 
-int			ft_delete(t_env *e, char *inputs)
+int					ft_delete(t_env *e, char *inputs)
 {
 	if (inputs[0] == 27 && inputs[1] == 91 && inputs[2] == 51 &&
 	(inputs[3] == 126 && inputs[4] == 0))
@@ -51,7 +51,7 @@ int			ft_delete(t_env *e, char *inputs)
 	return (0);
 }
 
-static void	ft_lstr_inputsinit(t_env *e)
+static void			ft_lstr_inputsinit(t_env *e)
 {
 	if (!(e->histo))
 		ft_lststr_add(&(e->histo), ft_lststr_new(""));
@@ -63,9 +63,9 @@ static void	ft_lstr_inputsinit(t_env *e)
 	}
 }
 
-static int	ft_manage_inputs(t_env *e, char *inputs)
+static int			ft_manage_inputs(t_env *e, char *inputs)
 {
-	int		value;
+	int				value;
 
 	if ((inputs[0] == 4 || inputs[0] == 10) &&
 		inputs[1] == 0 && inputs[2] == 0 && inputs[3] == 0 &&
@@ -80,21 +80,50 @@ static int	ft_manage_inputs(t_env *e, char *inputs)
 	return (-1);
 }
 
-int			ft_get_inputs(t_env *e)
+t_env				*ft_init_env(void)
 {
-	char	inputs[7];
-	int		value;
+	t_env			*e;
 
+	if (!(e = (t_env *)malloc(sizeof(t_env))))
+		exit (0);
+	e->histo = NULL;
+	return (e);
+}
+
+char				*ft_get_inputs(char *str)
+{
+	static t_env	*e = NULL;
+	char			inputs[7];
+	int				value;
+	char			*test;
+	static int		i = 0;
+
+	if (!e)
+		e = ft_init_env();
+	test = NULL;
+	e->name = str;
+	e->index = 0;
+	e->max = 0;
+	if (i++ == 0)
+	{
+		dprintf(1, "Tgetent\n");
+		// if (tgetent(e->buf, test) < 1)
+		// 	exit(-1);
+		if (!(e->str = (char *)malloc(sizeof(char))))
+			return (NULL);
+	}
 	ft_bzero(inputs, 7);
 	ft_clean_histo(e);
 	ft_lstr_inputsinit(e);
 	tputs(e->name, 1, ft_putc);
+	start_termcaps();
 	while ((read(0, inputs, 7)) != EOF)
 	{
 		if ((value = ft_manage_inputs(e, inputs)) >= 0)
-			return (value);
+			return (e->str);
 		ft_bzero(inputs, 7);
 	}
+	pause_termcaps();
 	ft_endline(e);
-	return (0);
+	return (e->str);
 }
