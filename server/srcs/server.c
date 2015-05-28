@@ -8,7 +8,7 @@ static void		usage(const char *str, const int op)
 	exit(-1);	
 }
 
-static int		server(int port)
+static int	create_server(int port)
 {
 	int					sock;
 	struct protoent		*proto;
@@ -32,12 +32,11 @@ int		main(int ac, char **av)
 
 	if (ac != 2)
 		usage(av[0], 0);
-	if (str_issort(av[1]))
-		sock = create_server(ft_atoi(av[1]));
-	else
+	if (!(str_issort(av[1])))
 		usage(av[1], 1);
-	launch_server();
-	cs = accept(sock, );
+	sock = create_server(ft_atoi(av[1]));
+	if (!(launch_server(sock)))
+		usage("Launch_server", 3);
 	close(sock);
 	return (0);
 }

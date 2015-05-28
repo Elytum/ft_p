@@ -6,7 +6,7 @@
 #    By: achazal <achazal@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/03 11:54:29 by achazal           #+#    #+#              #
-#    Updated: 2015/05/28 11:22:07 by folier           ###   ########.fr        #
+#    Updated: 2015/05/28 12:00:18 by folier           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ MYPATH	=	$(HOME)
 #--------------Sources----------------------#
 FILES_SERVER	=	server.c launcher_server.c
 
-INC		=	-I./includes -I../common/inclues ../common/common.a
+INC		=	-I./includes -I../common/includes -I../common/libft 
 CCFLAGS	=	-Wall -Wextra -Werror -g
 
 SRCS	=	$(addprefix srcs/, $(FILES_SERVER))
