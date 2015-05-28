@@ -19,26 +19,23 @@ MYPATH	=	$(HOME)
 DIRECTORIES = server		\
 				client
 
-DIRS	=	$(addprefix srcs/client/, $(FILES_CLIENT))
-SRCS	+=	$(addprefix srcs/server/, $(FILES_SERVER))
-SRCS	+=	$(addprefix srcs/common/, $(FILES_COMMON))
-OBJS	=	$(SRCS:.c=.o)
-
 #--------------Actions----------------------#
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) $(CCFLAGS) $(INC) $(OBJS) -o $(NAME)
-
-%.o: %.c
-	$(CC) $(CCFLAGS) -c  $(INC) $< -o $@
+$(NAME):
+	make -C server
+	make -C client
 	
 clean:
-	rm -f $(OBJS)
+	make clean -C server
+	make clean -C client
+	make clean -C common
 	
-fclean:	clean
-	rm -f $(NAME)
+fclean:
+	make fclean -C server
+	make fclean -C client
+	make fclean -C common
 
 re: fclean all
 
