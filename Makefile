@@ -15,10 +15,6 @@ CC		=	gcc
 #--------------Name-------------------------#
 NAME	=	ft_p
 MYPATH	=	$(HOME)
-#--------------Sources----------------------#
-DIRECTORIES = server		\
-				client
-
 #--------------Actions----------------------#
 
 all: $(NAME)
