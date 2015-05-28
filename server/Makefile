@@ -13,23 +13,26 @@
 # -------------Compilateur------------------#
 CC		=	gcc
 #--------------Name-------------------------#
-NAME	=	ft_p
+NAME	=	server
 MYPATH	=	$(HOME)
 #--------------Sources----------------------#
-DIRECTORIES = server		\
-				client
+FILES_SERVER	=	server.c
 
-DIRS	=	$(addprefix srcs/client/, $(FILES_CLIENT))
-SRCS	+=	$(addprefix srcs/server/, $(FILES_SERVER))
-SRCS	+=	$(addprefix srcs/common/, $(FILES_COMMON))
+INC		=	-I./includes -I../common/includes
+CCFLAGS	=	-Wall -Wextra -Werror -g
+
+SRCS	=	$(addprefix srcs/, $(FILES_SERVER))
 OBJS	=	$(SRCS:.c=.o)
 
 #--------------Actions----------------------#
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): lib $(OBJS)
 	$(CC) $(CCFLAGS) $(INC) $(OBJS) -o $(NAME)
+
+lib:
+	make -C ../common
 
 %.o: %.c
 	$(CC) $(CCFLAGS) -c  $(INC) $< -o $@

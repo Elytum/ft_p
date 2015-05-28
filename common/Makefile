@@ -11,17 +11,17 @@
 # **************************************************************************** #
 
 # -------------Compilateur------------------#
-CC		=	gcc
+CC		=	ar rc common.a
 #--------------Name-------------------------#
-NAME	=	ft_p
+NAME	=	common
 MYPATH	=	$(HOME)
 #--------------Sources----------------------#
-DIRECTORIES = server		\
-				client
+FILES_COMMON	=	test.c
 
-DIRS	=	$(addprefix srcs/client/, $(FILES_CLIENT))
-SRCS	+=	$(addprefix srcs/server/, $(FILES_SERVER))
-SRCS	+=	$(addprefix srcs/common/, $(FILES_COMMON))
+INC		=	-I./includes
+CCFLAGS	=	-Wall -Wextra -Werror -g
+
+SRCS	=	$(addprefix srcs/, $(FILES_COMMON))
 OBJS	=	$(SRCS:.c=.o)
 
 #--------------Actions----------------------#
@@ -29,7 +29,7 @@ OBJS	=	$(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CCFLAGS) $(INC) $(OBJS) -o $(NAME)
+	$(CC) $(OBJS) -o $(NAME) $(CCFLAGS) $(INC)
 
 %.o: %.c
 	$(CC) $(CCFLAGS) -c  $(INC) $< -o $@
