@@ -6,7 +6,7 @@
 #    By: glovichi <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2013/11/20 21:34:10 by glovichi          #+#    #+#              #
-#    Updated: 2015/04/22 09:00:48 by glovichi         ###   ########.fr        #
+#    Updated: 2015/05/28 15:24:20 by dmansour         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -92,21 +92,20 @@ OBJ = $(SRC:.c=.o)
 
 LIBNAME = libft.a
 
-FLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra
 
 HEAD = ./includes
 
-all: $(NAME)
+all: $(OBJ) $(NAME)
 
-$(NAME):
-	@gcc -c $(SRC) -I $(HEAD) $(FLAGS)
+$(NAME): $(OBJ)
 	@ar rc $(LIBNAME) $(OBJ)
 	@ranlib $(LIBNAME)
 
 clean:
-	@rm -f $(OBJ)
+	rm -f $(OBJ)
 
 fclean: clean
-	@rm -f $(LIBNAME)
+	rm -f $(LIBNAME)
 
 re: fclean all

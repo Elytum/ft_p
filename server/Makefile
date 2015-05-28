@@ -6,7 +6,7 @@
 #    By: achazal <achazal@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/03 11:54:29 by achazal           #+#    #+#              #
-#    Updated: 2015/05/28 12:00:18 by folier           ###   ########.fr        #
+#    Updated: 2015/05/28 14:44:31 by dmansour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ FILES_SERVER	=	server.c launcher_server.c
 
 INC		=	-I./includes -I../common/includes -I../common/libft 
 CCFLAGS	=	-Wall -Wextra -Werror -g
+LIBS = ../common/common.a ../common/libft/libft.a
 
 SRCS	=	$(addprefix srcs/, $(FILES_SERVER))
 OBJS	=	$(SRCS:.c=.o)
@@ -28,11 +29,8 @@ OBJS	=	$(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): lib $(OBJS)
-	$(CC) $(CCFLAGS) $(INC) $(OBJS) -o $(NAME)
-
-lib:
-	make -C ../common
+$(NAME): $(OBJS)
+	$(CC) $(CCFLAGS) $(INC) $(OBJS) -o $(NAME) $(LIBS)
 
 %.o: %.c
 	$(CC) $(CCFLAGS) -c  $(INC) $< -o $@

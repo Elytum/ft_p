@@ -6,20 +6,21 @@
 #    By: achazal <achazal@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/03 11:54:29 by achazal           #+#    #+#              #
-#    Updated: 2014/12/13 12:55:35 by achazal          ###   ########.fr        #
+#    Updated: 2015/05/28 15:34:11 by dmansour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # -------------Compilateur------------------#
 CC		=	gcc
 #--------------Name-------------------------#
-NAME	=	server
+NAME	=	client
 MYPATH	=	$(HOME)
 #--------------Sources----------------------#
 FILES_CLIENT	=	client.c
 
-INC		=	-I./includes -I../common/includes
+INC		=	-I./includes -I../common/includes -I../common/libft/
 CCFLAGS	=	-Wall -Wextra -Werror -g
+LIBS	=	../common/common.a ../common/libft/libft.a
 
 SRCS	=	$(addprefix srcs/, $(FILES_CLIENT))
 OBJS	=	$(SRCS:.c=.o)
@@ -28,11 +29,8 @@ OBJS	=	$(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): lib $(OBJS)
-	$(CC) $(CCFLAGS) $(INC) $(OBJS) -o $(NAME)
-
-lib:
-	make -C ../common
+$(NAME): $(OBJS)
+	$(CC) $(CCFLAGS) $(LIBS) $(INC) $(OBJS) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CCFLAGS) -c  $(INC) $< -o $@
