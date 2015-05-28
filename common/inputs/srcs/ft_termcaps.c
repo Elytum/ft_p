@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_termcaps.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achazal <achazal@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/03/04 21:41:00 by achazal           #+#    #+#             */
+/*   Updated: 2015/03/04 21:41:00 by achazal          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #define GET_SING 0
 #define SET_SING 1
 #define UNSET_SING 2
@@ -13,7 +25,7 @@ static int			termcaps_sing(int value)
 	return (sing);
 }
 
-static BYPASS	 	*old_term_sing(BYPASS *term)
+static BYPASS		*old_term_sing(BYPASS *term)
 {
 	static BYPASS	*attr = NULL;
 
@@ -27,7 +39,7 @@ static BYPASS	 	*old_term_sing(BYPASS *term)
 	return (attr);
 }
 
-static BYPASS	 	*new_term_sing(BYPASS *term)
+static BYPASS		*new_term_sing(BYPASS *term)
 {
 	static BYPASS	*attr = NULL;
 
@@ -41,9 +53,9 @@ static BYPASS	 	*new_term_sing(BYPASS *term)
 	return (attr);
 }
 
-void		pause_termcaps(void)
+void				pause_termcaps(void)
 {
-	int		sing;
+	int				sing;
 
 	sing = termcaps_sing(GET_SING);
 	if (sing == SET_SING)
@@ -53,16 +65,19 @@ void		pause_termcaps(void)
 	}
 }
 
-void		start_termcaps(void)
+char				*start_termcaps(void)
 {
-	int		sing;
-	BYPASS	term;
+	int				sing;
+	BYPASS			term;
+	static char		*buf = NULL;
 
 	sing = termcaps_sing(GET_SING);
 	if (sing == NEVERSET_SING)
 	{
-		tcgetattr(0, &term);
-		old_term_sing(&term);
+		if (!(buf = (char *)ft_memalloc(sizeof(char) * 2048)) ||
+			tgetent(buf, NULL) < 1)
+			exit(-1);
+		tcgetattr(0, &term), old_term_sing(&term);
 		term.c_lflag &= ~(ICANON);
 		term.c_lflag &= ~(ECHO);
 		term.c_cc[VMIN] = 1;
@@ -76,4 +91,5 @@ void		start_termcaps(void)
 		termcaps_sing(SET_SING);
 	}
 	termcaps_sing(SET_SING);
+	return (buf);
 }

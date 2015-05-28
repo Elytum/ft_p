@@ -80,50 +80,30 @@ static int			ft_manage_inputs(t_env *e, char *inputs)
 	return (-1);
 }
 
-t_env				*ft_init_env(void)
-{
-	t_env			*e;
-
-	if (!(e = (t_env *)malloc(sizeof(t_env))))
-		exit (0);
-	e->histo = NULL;
-	return (e);
-}
-
 char				*ft_get_inputs(char *str)
 {
 	static t_env	*e = NULL;
 	char			inputs[7];
 	int				value;
-	char			*test;
-	static int		i = 0;
 
-	if (!e)
-		e = ft_init_env();
-	test = NULL;
+	if (!e && (!(e = (t_env *)ft_memalloc(sizeof(t_env)))))
+		exit (0);
 	e->name = str;
 	e->index = 0;
 	e->max = 0;
-	if (i++ == 0)
-	{
-		dprintf(1, "Tgetent\n");
-		// if (tgetent(e->buf, test) < 1)
-		// 	exit(-1);
-		if (!(e->str = (char *)malloc(sizeof(char))))
-			return (NULL);
-	}
+	if (!(e->str = (char *)malloc(sizeof(char))))
+		return (NULL);
 	ft_bzero(inputs, 7);
 	ft_clean_histo(e);
 	ft_lstr_inputsinit(e);
 	tputs(e->name, 1, ft_putc);
-	start_termcaps();
+	e->buf = start_termcaps();
 	while ((read(0, inputs, 7)) != EOF)
 	{
 		if ((value = ft_manage_inputs(e, inputs)) >= 0)
 			return (e->str);
 		ft_bzero(inputs, 7);
 	}
-	pause_termcaps();
 	ft_endline(e);
 	return (e->str);
 }

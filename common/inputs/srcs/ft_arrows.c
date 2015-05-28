@@ -16,28 +16,17 @@ static void	ft_shellup(t_env *e)
 {
 	if (e->phisto->next)
 	{
-		// dprintf(1, "UP KEY\n");
 		ft_clear_input(e);
-		// dprintf(1, "UP KEY 1\n");
 		free(e->phisto->tmp);
-		// dprintf(1, "UP KEY 2\n");
 		e->phisto->tmp = ft_strdup(e->str);
-		// dprintf(1, "UP KEY 3\n");
 		e->phisto = e->phisto->next;
-		// dprintf(1, "UP KEY 4\n");
 		if (!e->phisto->tmp)
 			e->phisto->tmp = ft_strdup(e->phisto->str);
-		// dprintf(1, "UP KEY 5\n");
 		free(e->str);
-		// dprintf(1, "UP KEY 6\n");
 		e->str = ft_strdup(e->phisto->tmp);
-		// dprintf(1, "UP KEY 7\n");
 		e->max = ft_strlen(e->str);
-		// dprintf(1, "UP KEY 8\n");
 		e->index = e->max;
-		// dprintf(1, "UP KEY 9\n");
 		tputs(e->str, 1, ft_putc);
-		// dprintf(1, "UP KEY 10\n");
 	}
 }
 
@@ -63,19 +52,17 @@ static void	ft_leftright(t_env *e, char *inputs)
 {
 	if (inputs[0] == 27 && inputs[1] == 91 && inputs[2] == 68)
 	{
-		// dprintf(1, "LEFT KEY\n");
 		if (e->index > 0)
 			ft_goleft(e);
 		else
-			tputs(tgetstr("bl", (char **)&(e->buf)), 1, ft_putc);
+			tputs(tgetstr("bl", (char **)(&e->buf)), 1, ft_putc);
 	}
 	if (inputs[0] == 27 && inputs[1] == 91 && inputs[2] == 67)
 	{
-		// dprintf(1, "RIGHT KEY\n");
 		if (e->max > e->index)
 			ft_goright(e);
 		else
-			tputs(tgetstr("bl", (char **)&(e->buf)), 1, ft_putc);
+			tputs(tgetstr("bl", (char **)(&e->buf)), 1, ft_putc);
 	}
 }
 

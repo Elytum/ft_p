@@ -17,17 +17,14 @@ int			ft_clear_input(t_env *e)
 	int		len;
 
 	len = e->index;
-	// dprintf(1, "e->index = %zu\n", e->index);
 	if (((ft_strlen(e->name) + ft_strlen(e->str)) % tgetnum("co")) == 0)
 	{
 		len--;
-		tputs(tgetstr("bl", (char **)&(e->buf)), 1, ft_putc);
-		dprintf(1, "FUCKOFF\n");
+		tputs(tgetstr("bl", (char **)(&e->buf)), 1, ft_putc);
 	}
-	// dprintf(1, "Len = %d\n", len);
 	while (len--)
-		tputs(tgetstr("le", (char **)&(e->buf)), 1, ft_putc);
-	tputs(tgetstr("cd", (char **)&(e->buf)), 1, ft_putc);
+		tputs(tgetstr("le", (char **)(&e->buf)), 1, ft_putc);
+	tputs(tgetstr("cd", (char **)(&e->buf)), 1, ft_putc);
 	return (0);
 }
 

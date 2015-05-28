@@ -81,6 +81,6 @@ void		ft_put_histo(t_env *e);
 void		ft_special(t_env *e, int kind);
 
 void		pause_termcaps(void);
-void		start_termcaps(void);
+char		*start_termcaps(void);
 
 #endif
