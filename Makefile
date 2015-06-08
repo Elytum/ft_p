@@ -20,10 +20,10 @@ MYPATH	=	$(HOME)
 all: $(NAME)
 
 $(NAME):
-	make -C server
-	make -C client
-	cp client/client ./client_bin
-	cp server/server ./server_bin
+	make -C sources/server
+	make -C sources/client
+	cp sources/client/client ./
+	cp sources/server/server ./
 	
 clean:
 	make clean -C server

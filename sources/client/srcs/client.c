@@ -21,7 +21,7 @@
 
 void	usage(char *str)
 {
-	printf("Usage: %s <port>\n", str);
+	printf("Usage: %s <ip> <port>\n", str);
 	exit (-1);
 }
 
@@ -40,7 +40,7 @@ int		create_client(char *addr, int port)
 	sin.sin_addr.s_addr = inet_addr(addr);
 	if (connect(sock, (const struct sockaddr *)&sin, sizeof(sin)) == -1)
 	{
-		printf("Connect error with %s\n", addr);
+		printf("Connect error with %s with port %i\n", addr, port);
 		exit(2);
 	}
 	return (sock);
@@ -58,7 +58,6 @@ char	*call_inputs(char status)
 
 int		main(int ac, char **av)
 {
-	int					port;
 	int					sock;
 	char				*str;
 	char				status;
@@ -66,9 +65,10 @@ int		main(int ac, char **av)
 	status = 1;
 	if (ac != 3)
 		usage(av[0]);
-	port = atoi(av[2]);
-	sock = create_client(av[1], port);
-	// while ((str = ft_get_inputs("➜ ft_p > ")))
+	if (strcmp(av[1], "localhost") == 0)
+		sock = create_client("127.0.0.1", atoi(av[2]));
+	else
+		sock = create_client(av[1], atoi(av[2]));
 	while ((str = ft_get_inputs(call_inputs(status))))
 	{
 		printf("Sending %lu bytes\n", strlen(str));

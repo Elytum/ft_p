@@ -26,7 +26,22 @@
 # include <netinet/in.h>
 # include <sys/time.h>
 
+typedef struct		s_user
+{
+	int				status;
+	char			name[NAME_MAX];
+	char			path[PATH_MAX];
+	char			*input;
+	int				socket;
+	int				socket_id;
+	time_t			timeout;
+}					t_user;
+
+# define S_IFCONNECTED 0b00000001
+# define S_ISCONNECTED(u) (u & S_IFCONNECTED)
+
 void	server_loop(int master_socket, int client_sock[MAX_CLIENTS],
-	struct sockaddr_in addr);
+	struct sockaddr_in addr, t_user **users);
+void	create_user(t_user *user, char *name, int socket, int socket_id);
 
 #endif

@@ -10,9 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COMMON_H
-# define COMMON_H
+#ifndef MESSAGE_H
+# define MESSAGE_H
+# include <config.h>
 
-void	put_exit(int stream, char *str, int out);
+t_message	*ft_decode_message(const char *message, const size_t coded_len);
+void		ft_code_message(char kind, char *content,
+							char **arg, size_t *arg_len);
 
 #endif

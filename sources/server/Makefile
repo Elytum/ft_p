@@ -16,8 +16,9 @@ CC		=	gcc
 NAME	=	server
 MYPATH	=	$(HOME)
 #--------------Sources----------------------#
-FILES_SERVER	=	server.c	\
-					update.c
+FILES_SERVER	=	server.c			\
+					update.c			\
+					user_connexion.c
 
 INC		=	-I./includes -I../common/includes -I../common/inputs/includes \
 			-I../common/libft

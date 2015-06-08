@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   config.c                                           :+:      :+:    :+:   */
+/*   common.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: achazal <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,14 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONFIG_H
-# define CONFIG_H
+#ifndef COMMON_H
+# define COMMON_H
+# include <config.h>
 
-# define WELCOME_MESSAGE "ft_p\n"
-# define WELCOME_MESSAGE_LEN sizeof(WELCOME_MESSAGE)
-# define TRUE   1
-# define FALSE  0
-# define MAX_CLIENTS 30
-# define BUFF_SIZE 1024
+void		put_exit(int stream, char *str, int out);
+
+union			s_value
+{
+	size_t		value;
+	char		compo[sizeof(size_t)];
+}				t_value;
 
 #endif
