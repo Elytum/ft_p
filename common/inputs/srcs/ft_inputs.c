@@ -91,7 +91,7 @@ char				*ft_get_inputs(char *str)
 	e->name = str;
 	e->index = 0;
 	e->max = 0;
-	if (!(e->str = (char *)malloc(sizeof(char))))
+	if (!(e->str = (char *)ft_memalloc(sizeof(char))))
 		return (NULL);
 	ft_bzero(inputs, 7);
 	ft_clean_histo(e);
@@ -104,6 +104,7 @@ char				*ft_get_inputs(char *str)
 			return (e->str);
 		ft_bzero(inputs, 7);
 	}
+	pause_termcaps();
 	ft_endline(e);
 	return (e->str);
 }

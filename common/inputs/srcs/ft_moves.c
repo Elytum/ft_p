@@ -12,24 +12,6 @@
 
 #include <inputs.h>
 
-static void		ft_trucbidule(t_env *e)
-{
-	char		tmp[2];
-
-	if (((ft_strlen(e->name) + e->index) % tgetnum("co"))
-			!= tgetnum("co") - 1)
-		tputs(tgetstr("nd", (char **)(&e->buf)), 1, ft_putc);
-	else
-	{
-		tmp[1] = '\0';
-		tmp[0] = e->str[e->index];
-		tputs(tmp, 1, ft_putc);
-		tmp[0] = e->str[e->index + 1];
-		tputs(tmp, 1, ft_putc);
-		tputs(tgetstr("le", (char **)(&e->buf)), 1, ft_putc);
-	}
-}
-
 void			ft_goleft(t_env *e)
 {
 	int			n;
@@ -38,20 +20,29 @@ void			ft_goleft(t_env *e)
 		n = 1;
 	else
 		n = 1;
-	while (n-- > 0)
-		tputs(tgetstr("le", (char **)(&e->buf)), 1, ft_putc);
-	e->index--;
+	// if (tgetflag("bw"))
+	// {
+		while (n-- > 0)
+		{
+			tputs(tgetstr("le", (char **)(&e->buf)), 1, ft_putc);
+			e->index--;
+		}
+	// }
 }
 
 void			ft_goright(t_env *e)
 {
 	int			n;
+	char		tmp[2];
 
 	if (e->str[e->index] == '\t')
 		n = 1;
 	else
 		n = 1;
 	while (n-- > 0)
-		ft_trucbidule(e);
-	e->index++;
+	{
+		tmp[1] = '\0';
+		tmp[0] = e->str[e->index++];
+		tputs(tmp, 1, ft_putc);
+	}
 }

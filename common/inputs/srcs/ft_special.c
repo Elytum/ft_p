@@ -17,8 +17,11 @@ static void	ft_home(t_env *e)
 	if (!e->index)
 		tputs(tgetstr("bl", (char **)(&e->buf)), 1, ft_putc);
 	else
+	{
+		// dpintf(1, "Home detected : e->index - %zu\n", e->index);
 		while (e->index)
 			ft_goleft(e);
+	}
 }
 
 static void	ft_end(t_env *e)

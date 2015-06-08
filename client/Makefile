@@ -13,12 +13,13 @@
 # -------------Compilateur------------------#
 CC		=	gcc
 #--------------Name-------------------------#
-NAME	=	server
+NAME	=	client
 MYPATH	=	$(HOME)
 #--------------Sources----------------------#
 FILES_CLIENT	=	client.c
 
-INC		=	-I./includes -I../common/includes
+INC		=	-I./includes -I../common/includes -I../common/inputs/includes \
+			 -I../common/libft
 CCFLAGS	=	-Wall -Wextra -Werror -g
 
 SRCS	=	$(addprefix srcs/, $(FILES_CLIENT))
@@ -29,7 +30,8 @@ OBJS	=	$(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): lib $(OBJS)
-	$(CC) $(CCFLAGS) $(INC) $(OBJS) -o $(NAME)
+	$(CC) $(CCFLAGS) $(INC) $(OBJS) ../common/common.a ../common/inputs/get_lines.a \
+	../common/libft/libft.a -o $(NAME) -lncurses
 
 lib:
 	make -C ../common

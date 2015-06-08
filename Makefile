@@ -22,6 +22,8 @@ all: $(NAME)
 $(NAME):
 	make -C server
 	make -C client
+	cp client/client ./client_bin
+	cp server/server ./server_bin
 	
 clean:
 	make clean -C server

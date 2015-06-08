@@ -16,9 +16,11 @@ CC		=	gcc
 NAME	=	server
 MYPATH	=	$(HOME)
 #--------------Sources----------------------#
-FILES_SERVER	=	server.c
+FILES_SERVER	=	server.c	\
+					update.c
 
-INC		=	-I./includes -I../common/includes
+INC		=	-I./includes -I../common/includes -I../common/inputs/includes \
+			-I../common/libft
 CCFLAGS	=	-Wall -Wextra -Werror -g
 
 SRCS	=	$(addprefix srcs/, $(FILES_SERVER))
@@ -29,7 +31,7 @@ OBJS	=	$(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): lib $(OBJS)
-	$(CC) $(CCFLAGS) $(INC) $(OBJS) -o $(NAME)
+	$(CC) $(CCFLAGS) $(INC) $(OBJS) ../common/common.a -o $(NAME)
 
 lib:
 	make -C ../common

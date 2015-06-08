@@ -84,6 +84,7 @@ char				*start_termcaps(void)
 		term.c_cc[VTIME] = 0;
 		if (tcsetattr(0, TCSADRAIN, &term) == -1)
 			exit(-1);
+		tcgetattr(0, &term), new_term_sing(&term);
 	}
 	else if (sing == UNSET_SING)
 	{

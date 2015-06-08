@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   config.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: achazal <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,23 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERVER_H
-# define SERVER_H
+#ifndef CONFIG_H
+# define CONFIG_H
 
-# include <config.h>
-
-# include <stdio.h>
-# include <string.h>
-# include <stdlib.h>
-# include <errno.h>
-# include <unistd.h>
-# include <arpa/inet.h>
-# include <sys/types.h>
-# include <sys/socket.h>
-# include <netinet/in.h>
-# include <sys/time.h>
-
-void	server_loop(int master_socket, int client_sock[MAX_CLIENTS],
-	struct sockaddr_in addr);
+# define WELCOME_MESSAGE "ft_p\n"
+# define WELCOME_MESSAGE_LEN sizeof(WELCOME_MESSAGE)
+# define TRUE   1
+# define FALSE  0
+# define MAX_CLIENTS 30
+# define BUFF_SIZE 1024
 
 #endif

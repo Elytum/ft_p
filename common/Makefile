@@ -10,34 +10,38 @@
 #                                                                              #
 # **************************************************************************** #
 
-#--------------Name-------------------------#
-NAME	=	common.a
-#--------------Sources----------------------#
-INC		=	-I./includes
-CCFLAGS	=	-Wall -Wextra -Werror -g
-PATH_SRCS = srcs
-PATH_OBJS = obj
-PATH_INC = includes
-SRCS	=	test.c
-OBJS	=	$(patsubst %.c, $(PATH_OBJS)/%.o, $(SRCS))
-#--------------Actions----------------------#
+
+NAME = common
+
+SOURCES =	errors.c
+
+SRC = $(addprefix srcs/, $(SOURCES))
+
+OBJ = $(SRC:.c=.o)
+
+LIBNAME = common.a
+
+FLAGS = -Wall -Werror -Wextra
+
+INC = -I./includes -I../libft -I./inputs/includes
 
 all: $(NAME)
 
-$(PATH_OBJS)/%.o: $(addprefix $(PATH_SRCS)/, %.c)
-	@mkdir -p $(PATH_OBJS)
-	$(CC) $(INC) -o $@ -c $< $(CCFLAGS)
-	
-$(NAME): $(OBJS)
-	ar rc $(NAME) $(OBJS)
-	ranlib common.a
-	@echo "Commonlib ok"
+build:
+	make -C inputs
+	make -C libft
+
+$(NAME): build $(OBJ)
+	ar rc $(LIBNAME) $(OBJ)
+	@ranlib $(LIBNAME)
+
+%.o: %.c
+	$(CC) $(CCFLAGS) -c  $(INC) $< -o $@
+
 clean:
-	@rm -rf $(PATH_OBJS)
-	@rm -f $(OBJS)
-	
-fclean:	clean
-	rm -f $(NAME)
+	@rm -f $(OBJ)
+
+fclean: clean
+	@rm -f $(LIBNAME)
 
 re: fclean all
-
