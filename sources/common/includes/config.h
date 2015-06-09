@@ -13,6 +13,8 @@
 #ifndef CONFIG_H
 # define CONFIG_H
 
+# include <sys/types.h>
+
 typedef struct	s_message
 {
 	char		kind;
@@ -25,13 +27,14 @@ typedef struct	s_message
 # define WELCOME_MESSAGE_LEN sizeof(WELCOME_MESSAGE)
 # define TRUE 1
 # define FALSE 0
-# define MAX_CLIENTS 30
+# define MAX_CLIENTS 3
 # define BUFF_SIZE 1024
-# define NAME_MAX 32
-# define PATH_MAX 4096
+# define PSEUDO_MAX 32
+# define TOTAL_PATH_MAX 4096
 # define LIFE_TIME 10
 # define EXTRA_HEADER (sizeof(char) + sizeof(char))
 # define HEADER_SIZE (sizeof(char) + sizeof(size_t))
 # define S_IFTEXT 0b00000001
+# define S_ISTEXT(u) (u & S_IFTEXT)
 
 #endif

@@ -13,7 +13,8 @@
 
 NAME = common
 
-SOURCES =	errors.c
+SOURCES =	errors.c			\
+			message_sending.c
 
 SRC = $(addprefix srcs/, $(SOURCES))
 

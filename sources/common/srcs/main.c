@@ -13,8 +13,8 @@ int				main(void)
 	size_t		coded_len;	
 	t_message	*decoded;
 
-	ft_code_message(S_IFTEXT, message, &coded, &coded_len);
-	decoded = ft_decode_message(coded, coded_len);
+	ft_code_message(S_IFTEXT, message, &coded);
+	decoded = ft_decode_message(coded);
 	printf("Message : error = %i, kind = %i, len = %zu, content = [%s]\n", decoded->error, decoded->kind, decoded->len, decoded->content);
 	return(0);
 }

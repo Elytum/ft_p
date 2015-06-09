@@ -50,7 +50,7 @@ static t_user	**init_users(void)
 	t_user	**users;
 	int		i;
 
-	if (!(users = (t_user **)malloc(sizeof(t_user *))))
+	if (!(users = (t_user **)malloc(sizeof(t_user *) * MAX_CLIENTS)))
 		put_exit(2, "Malloc error", EXIT_FAILURE);
 	i = 0;
 	while (i < MAX_CLIENTS)

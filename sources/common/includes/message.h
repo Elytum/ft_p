@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   common.h                                           :+:      :+:    :+:   */
+/*   message.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: achazal <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,8 +14,7 @@
 # define MESSAGE_H
 # include <config.h>
 
-t_message	*ft_decode_message(const char *message, const size_t coded_len);
-void		ft_code_message(char kind, char *content,
-							char **arg, size_t *arg_len);
+t_message	*ft_decode_message(const char *message);
+void		ft_code_message(char kind, char *content, char **arg);
 
 #endif

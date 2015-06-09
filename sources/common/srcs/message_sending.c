@@ -53,55 +53,43 @@ static size_t		value_mextract(char **ptr, size_t n)
 	return (v.value);
 }
 
-static char			ft_decode_errors(size_t len,
-	size_t header_len, size_t coded_len)
+static char			ft_decode_errors(size_t len, size_t header_len)
 {
 	if (len != header_len)
 		return (1);
-	else if (len != coded_len - HEADER_SIZE)
-		return (2);
 	else
 		return (0);
 }
 
-t_message			*ft_decode_message(const char *message,
-						const size_t coded_len)
+t_message			*ft_decode_message(const char *message)
 {
 	t_message		*decoded;
-	char			*ptr;
+	// char			*ptr;
 
-	if (!(decoded = (t_message *)malloc(sizeof(t_message))))
+	(void)message;
+	// if (!(decoded = (t_message *)malloc(sizeof(t_message))))
+	if (!(decoded = (t_message *)malloc(1)))
 		put_exit(2, "Malloc error", -1);
-	decoded->content = NULL;
-	if (coded_len < HEADER_SIZE)
-	{
-		decoded->error = 1;
-		return (decoded);
-	}
-	ptr = (char *)message;
-	decoded->kind = value_mextract(&ptr, sizeof(decoded->kind));
-	decoded->len = value_mextract(&ptr, sizeof(decoded->len));
-	if (decoded->len != coded_len - HEADER_SIZE)
-	{
-		decoded->error = 3;
-		return (decoded);
-	}
-	decoded->content = strndup(ptr, coded_len - HEADER_SIZE);
-	decoded->error = ft_decode_errors(strlen(decoded->content),
-							decoded->len, coded_len);
-	return (decoded);
+	// free(decoded);
+	// free(decoded);
+	// decoded->content = "Ceci est un test";
+	// decoded->len = 16;
+	// ptr = (char *)message;
+	// decoded->kind = value_mextract(&ptr, sizeof(decoded->kind));
+	// decoded->len = value_mextract(&ptr, sizeof(decoded->len));
+	// decoded->content = strndup(ptr, decoded->len);
+	// decoded->error = ft_decode_errors(strlen(decoded->content), decoded->len);
+	return (NULL);
 }
 
-void				ft_code_message(char kind, char *content,
-						char **arg, size_t *arg_len)
+void				ft_code_message(char kind, char *content, char **arg)
 {
 	char			*coded;
 	char			*ptr;
 	size_t			len;
 
 	len = strlen(content);
-	*(arg_len) = sizeof(char) * HEADER_SIZE + len;
-	if (!((*arg) = (char *)malloc(*(arg_len) + 1)))
+	if (!((*arg) = (char *)malloc(sizeof(char) * HEADER_SIZE + len + 1)))
 		return ;
 	ptr = (*arg);
 	value_mcopy(&ptr, kind, sizeof(kind));

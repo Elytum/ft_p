@@ -34,16 +34,17 @@ static inline int	fill_socket_set(fd_set *readfds, int max_sd,
 	return (max_sd);
 }
 
-static inline void	update_connexions_input(char buffer[BUFF_SIZE + 1],
+static inline void	update_connexions_input(t_user *user, char buffer[BUFF_SIZE + 1],
 	int valread, int sd)
 {
 	buffer[valread] = '\0';
 	if (send(sd, buffer, valread, 0) == -1)
 		printf("Send failed\n");
-	printf("%s", buffer);
+	printf("Received [%s] (len = %d)\n", buffer, valread);
+	user->timeout = time(NULL) + LIFE_TIME;
 }
 
-static inline void	update_connexions(fd_set *readfds, struct sockaddr_in addr,
+static inline void	update_connexions(t_user **users, fd_set *readfds, struct sockaddr_in addr,
 	int client_sock[MAX_CLIENTS])
 {
 	const int	len = sizeof(addr);
@@ -67,7 +68,7 @@ static inline void	update_connexions(fd_set *readfds, struct sockaddr_in addr,
 				client_sock[i] = 0;
 			}
 			else
-				update_connexions_input(buffer, valread, sd);
+				update_connexions_input(users[i], buffer, valread, sd);
 		}
 		++i;
 	}
@@ -154,7 +155,7 @@ void				server_loop(int master_socket, int client_sock[MAX_CLIENTS],
 			printf("Select error\n");
 		if (FD_ISSET(master_socket, &readfds))
 			new_connexions(master_socket, addr, client_sock, users);
-		update_connexions(&readfds, addr, client_sock);
+		update_connexions(users, &readfds, addr, client_sock);
 		update_server(users, client_sock);
 	}
 }

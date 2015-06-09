@@ -29,8 +29,8 @@
 typedef struct		s_user
 {
 	int				status;
-	char			name[NAME_MAX];
-	char			path[PATH_MAX];
+	char			name[PSEUDO_MAX];
+	char			path[TOTAL_PATH_MAX];
 	char			*input;
 	int				socket;
 	int				socket_id;
