@@ -14,7 +14,7 @@
 # define MESSAGE_H
 # include <config.h>
 
-t_message	*ft_decode_message(const char *message);
-void		ft_code_message(char kind, char *content, char **arg);
+t_message	*ft_decode_message(const char *message, const size_t valread);
+void		ft_code_message(char kind, char *content, size_t len, char **arg);
 
 #endif

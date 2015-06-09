@@ -18,6 +18,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <inputs.h>
+#include <message.h>
+#include <config.h>
 
 void	usage(char *str)
 {
@@ -61,6 +63,7 @@ int		main(int ac, char **av)
 	int					sock;
 	char				*str;
 	char				status;
+	char				*coded;
 
 	status = 1;
 	if (ac != 3)
@@ -72,9 +75,13 @@ int		main(int ac, char **av)
 	while ((str = ft_get_inputs(call_inputs(status))))
 	{
 		printf("Sending %lu bytes\n", strlen(str));
-		write(sock, str, strlen(str));
-		write(sock, "\n", 1);
+		// write(sock, str, strlen(str));
+		// write(sock, "\n", 1);
+		ft_code_message(0, str, strlen(str), &coded);
 		free(str);
+		write(sock, coded, strlen(str) + HEADER_SIZE);
+		write(sock, "\n", 1);
+		free(coded);
 		status--;
 		if (status == -2)
 			status = 1;

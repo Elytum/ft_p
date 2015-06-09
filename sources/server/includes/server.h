@@ -25,6 +25,7 @@
 # include <sys/socket.h>
 # include <netinet/in.h>
 # include <sys/time.h>
+# include <message.h>
 
 typedef struct		s_user
 {
@@ -35,6 +36,9 @@ typedef struct		s_user
 	int				socket;
 	int				socket_id;
 	time_t			timeout;
+	char			incoming[BUFF_SIZE * 2 + 1];
+	size_t			incoming_pos;
+	t_message		*message;
 }					t_user;
 
 # define S_IFCONNECTED 0b00000001

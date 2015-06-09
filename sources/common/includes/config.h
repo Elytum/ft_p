@@ -19,6 +19,7 @@ typedef struct	s_message
 {
 	char		kind;
 	size_t		len;
+	size_t		remaining;
 	char		error;
 	char		*content;
 }				t_message;

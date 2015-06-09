@@ -14,7 +14,8 @@
 #include <common.h>
 #include <sys/types.h>
 #include <sys/socket.h>
- 
+#include <message.h>
+
 static inline int	fill_socket_set(fd_set *readfds, int max_sd,
 							int client_sock[MAX_CLIENTS])
 {
@@ -37,11 +38,61 @@ static inline int	fill_socket_set(fd_set *readfds, int max_sd,
 static inline void	update_connexions_input(t_user *user, char buffer[BUFF_SIZE + 1],
 	int valread, int sd)
 {
-	buffer[valread] = '\0';
-	if (send(sd, buffer, valread, 0) == -1)
-		printf("Send failed\n");
-	printf("Received [%s] (len = %d)\n", buffer, valread);
+	// char			*str;
+
 	user->timeout = time(NULL) + LIFE_TIME;
+	buffer[valread] = '\0';
+	// printf("Updating with valread = %i\n", valread);
+	if (user->message == NULL)
+	{
+		if (user->incoming_pos + valread <= HEADER_SIZE)
+		{
+			// printf("\tStep 0\n");
+			memcpy(user->incoming + user->incoming_pos, buffer, valread);
+			user->incoming_pos += valread;
+			return ;
+		}
+		// printf("\tStep 1\n");
+		// printf("Info : user->incoming_pos = %zu, valread = %d\n", user->incoming_pos, valread);
+		if (user->incoming_pos != 0)
+		{
+			memcpy(user->incoming + user->incoming_pos, buffer, valread);
+			user->incoming_pos += valread;
+			user->message = ft_decode_message(user->incoming, user->incoming_pos);
+		}
+		else
+			user->message = ft_decode_message(buffer, valread);
+		// printf("User->message = %p\n", user->message);
+		// printf("\tInfo : Len = %zu, Remaining = %zu\n\tContent = [", user->message->len, user->message->remaining);
+	}
+	else
+	{
+		// printf("\tStep 2\n");
+		memcpy(user->message->content + (user->message->len - user->message->remaining), buffer, valread);
+		user->message->remaining -= valread;
+		// printf("User->message = %p\n", user->message);
+		// printf("\tInfo : Len = %zu, Remaining = %zu\n\tContent = [", user->message->len, user->message->remaining);
+	}
+	if (user->message->remaining == 0)
+	{
+		// printf("User->message = %p\n", user->message);
+		// printf("\tInfo : Len = %zu, Remaining = %zu\n\tContent = [", user->message->len, user->message->remaining);
+		write(1, user->message->content, user->message->len);
+		// printf("]\n");
+		if (send(sd, user->message->content, user->message->len, 0) == -1)
+			printf("Send failed\n");
+		// printf("Part 1\n");
+		printf("Received [%s] (len = %zu)\n", user->message->content, user->message->len);
+		// printf("Part 2\n");
+		free(user->message->content);
+		// printf("Part 3\n");
+		free(user->message);
+		// printf("Part 4\n");
+		user->message = NULL;
+		// printf("Part 5\n");
+		bzero(user->incoming, user->incoming_pos);
+		user->incoming_pos = 0;
+	}
 }
 
 static inline void	update_connexions(t_user **users, fd_set *readfds, struct sockaddr_in addr,

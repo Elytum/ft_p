@@ -26,14 +26,14 @@ $(NAME):
 	cp sources/server/server ./
 	
 clean:
-	make clean -C server
-	make clean -C client
-	make clean -C common
+	make clean -C sources/server
+	make clean -C sources/client
+	make clean -C sources/common
 	
 fclean:
-	make fclean -C server
-	make fclean -C client
-	make fclean -C common
+	make fclean -C sources/server
+	make fclean -C sources/client
+	make fclean -C sources/common
 
 re: fclean all
 
